@@ -1,44 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [apiKey, setApiKey] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    // Realize a chamada à API para verificar a chave
 
     try {
-      // Verificar a validade da API key
-      // Faça uma solicitação à API para verificar a validade da chave
-      const response = await axios.get(`https://api.example.com/validate?key=${apiKey}`);
+      const response = await axios.get(`sua-url-da-api/validate-api-key`, {
+        params: {
+          apiKey: apiKey
+        }
+      });
 
       // Se a chave for válida, redirecione para a página de seleção de país
       if (response.data.valid) {
-        history.push('/select-country');
+        navigate('/select-country');
       } else {
         alert('API key inválida. Por favor, tente novamente.');
       }
     } catch (error) {
-      console.error('Erro ao validar a API key', error);
-      alert('Ocorreu um erro ao validar a API key. Por favor, tente novamente.');
+      console.error(error);
+      alert('Erro ao validar a API key. Por favor, tente novamente.');
     }
   };
 
   return (
     <div>
-      <h1>Bem-vindo(a) ao Football App!</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="apiKey">Digite sua API key:</label>
-        <input
-          type="text"
-          id="apiKey"
-          value={apiKey}
-          onChange={(event) => setApiKey(event.target.value)}
-        />
-        <button type="submit">Acessar</button>
-      </form>
+      {/* Seu formulário e outros elementos... */}
     </div>
   );
 }
